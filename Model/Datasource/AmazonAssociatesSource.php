@@ -123,7 +123,7 @@ class AmazonAssociatesSource extends DataSource {
 				'Service' => 'AWSECommerceService',
 				'AWSAccessKeyId' => $this->config['key'],
 				'Timestamp' => gmdate("Y-m-d\TH:i:s\Z"),
-				'AccociateTag' => $this->config['tag'],
+				'AssociateTag' => $this->config['tag'],
 				'Operation' => 'ItemSearch',
 				'Version' => '2009-03-31',
 			),
@@ -144,7 +144,7 @@ class AmazonAssociatesSource extends DataSource {
 				'Service' => 'AWSECommerceService',
 				'AWSAccessKeyId' => $this->config['key'],
 				'Timestamp' => gmdate("Y-m-d\TH:i:s\Z"),
-				'AccociateTag' => $this->config['tag'],
+				'AssociateTag' => $this->config['tag'],
 				'Version' => '2009-03-31',
 				'Operation' => 'ItemLookup',
 			),
@@ -177,7 +177,8 @@ class AmazonAssociatesSource extends DataSource {
 		$this->_request = $this->_signQuery();
 		$this->_requestLog[] = $this->_request;
 		$retval = $this->Http->get($this->_request);
-		return Set::reverse(new Xml($retval));
+		$xml = new SimpleXMLElement($retval);
+		return Xml::toArray($xml);
 	}
 
 /**

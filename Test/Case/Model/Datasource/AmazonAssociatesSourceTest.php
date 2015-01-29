@@ -84,7 +84,7 @@ class AmazonAssociatesTest extends CakeTestCase {
 
 		$this->assertEquals('AWSECommerceService', $this->Amazon->query['Service']);
 		$this->assertEquals('PUBLICKEY', $this->Amazon->query['AWSAccessKeyId']);
-		$this->assertEquals('ASSID', $this->Amazon->query['AccociateTag']);
+		$this->assertEquals('ASSID', $this->Amazon->query['AssociateTag']);
 		$this->assertEquals('DVD', $this->Amazon->query['SearchIndex']);
 		$this->assertEquals('2009-03-31', $this->Amazon->query['Version']);
 		$this->assertEquals('harry', $this->Amazon->query['Title']);
@@ -95,7 +95,7 @@ class AmazonAssociatesTest extends CakeTestCase {
 		$this->Amazon->find('DVD', 'harry');
 		$this->assertEquals('AWSECommerceService', $this->Amazon->query['Service']);
 		$this->assertEquals('PUBLICKEY', $this->Amazon->query['AWSAccessKeyId']);
-		$this->assertEquals('ASSID', $this->Amazon->query['AccociateTag']);
+		$this->assertEquals('ASSID', $this->Amazon->query['AssociateTag']);
 		$this->assertEquals('DVD', $this->Amazon->query['SearchIndex']);
 		$this->assertEquals('2009-03-31', $this->Amazon->query['Version']);
 		$this->assertEquals('harry', $this->Amazon->query['Title']);
@@ -114,7 +114,7 @@ class AmazonAssociatesTest extends CakeTestCase {
 
 		$this->assertEquals('AWSECommerceService', $this->Amazon->query['Service']);
 		$this->assertEquals('PUBLICKEY', $this->Amazon->query['AWSAccessKeyId']);
-		$this->assertEquals('ASSID', $this->Amazon->query['AccociateTag']);
+		$this->assertEquals('ASSID', $this->Amazon->query['AssociateTag']);
 		$this->assertEquals('ItemLookup', $this->Amazon->query['Operation']);
 		$this->assertEquals('2009-03-31', $this->Amazon->query['Version']);
 		$this->assertEquals('ITEMID', $this->Amazon->query['ItemId']);
@@ -130,14 +130,14 @@ class AmazonAssociatesTest extends CakeTestCase {
 			'Service' => 'AWSECommerceService',
 			'AWSAccessKeyId' => 'PUBLICKEY',
 			'Timestamp' => '2010-03-01T07:44:03Z',
-			'AccociateTag' => 'ASSID',
+			'AssociateTag' => 'ASSID',
 			'Version' => '2009-03-31',
 			'Operation' => 'ItemSearch',
 		);
 
 		$Amazon = new AmazonAssociatesTestDataSource($this->config);
 		$Amazon->query = $query;
-		$expected = 'http://ecs.amazonaws.com/onca/xml?AWSAccessKeyId=PUBLICKEY&AccociateTag=ASSID&Operation=ItemSearch&Service=AWSECommerceService&Timestamp=2010-03-01T07%3A44%3A03Z&Version=2009-03-31&Signature=oEbqdS17pJmjRaSzbBX14zcnlprDbRlpDhQEvjo9mUA%3D';
+		$expected = 'http://ecs.amazonaws.com/onca/xml?AWSAccessKeyId=PUBLICKEY&AssociateTag=ASSID&Operation=ItemSearch&Service=AWSECommerceService&Timestamp=2010-03-01T07%3A44%3A03Z&Version=2009-03-31&Signature=zt%2Bug1KRQp1fGj3cV5LALmgxbKijpemXo%2BfF%2B8wHujo%3D';
 		$this->assertEquals($expected, $Amazon->signQuery());
 	}
 /**
