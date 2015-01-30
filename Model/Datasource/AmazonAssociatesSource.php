@@ -174,11 +174,18 @@ class AmazonAssociatesSource extends DataSource {
  * @return mixed array of the resulting request or false if unable to contact server
  */
 	protected function _request() {
-		$this->_request = $this->_signQuery();
-		$this->_requestLog[] = $this->_request;
-		$retval = $this->Http->get($this->_request);
+		$query = $this->_signQuery();
+		$retval = $this->Http->get($query);
 		$xml = new SimpleXMLElement($retval);
-		return Xml::toArray($xml);
+		$data = Xml::toArray($xml);
+		$this->_request = [
+			'query' => $query,
+			'affected' => 0,
+			'numRows' => $data['ItemSearchResponse']['Items']['TotalResults'],
+			'took' => $data['ItemSearchResponse']['OperationRequest']['RequestProcessingTime']
+		];
+		$this->_requestLog[] = $this->_request;
+		return $data;
 	}
 
 /**
