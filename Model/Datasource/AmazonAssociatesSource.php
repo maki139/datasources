@@ -170,12 +170,16 @@ class AmazonAssociatesSource extends DataSource {
 		$retval = $this->Http->get($query);
 		$xml = new SimpleXMLElement($retval);
 		$data = Xml::toArray($xml);
-		$this->_request = [
+		$this->_request = array(
 			'query' => $query,
 			'affected' => 0,
-			'numRows' => $data['ItemSearchResponse']['Items']['TotalResults'],
-			'took' => $data['ItemSearchResponse']['OperationRequest']['RequestProcessingTime']
-		];
+			'took' => $data['ItemSearchResponse']['OperationRequest']['RequestProcessingTime'] * 1000
+		);
+		if ($data['ItemSearchResponse']['Items']['Request']['IsValid'] == 'True') {
+			$this->_request['numRows'] = $data['ItemSearchResponse']['Items']['TotalResults'];
+		} else {
+			$this->_request['numRows'] = 0;
+		}
 		$this->_requestLog[] = $this->_request;
 		return $data;
 	}
