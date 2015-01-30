@@ -49,14 +49,6 @@ class AmazonAssociatesSource extends DataSource {
 	public $description = 'AmazonAssociates Data Source';
 
 /**
- * Region / Locale
- * (ca,com,co,ul,de.fr,jp)
- *
- * @var string
- */
-	public $region = 'com';
-
-/**
  * Query array
  *
  * @var array
@@ -196,7 +188,7 @@ class AmazonAssociatesSource extends DataSource {
  */
 	protected function _signQuery() {
 		$method = 'GET';
-		$host = 'ecs.amazonaws.' . $this->region;
+		$host = 'ecs.amazonaws.' . $this->config['locale'];
 		$uri = '/onca/xml';
 
 		ksort($this->query);
