@@ -163,6 +163,7 @@ class AmazonAssociatesSource extends DataSource {
 /**
  * Perform the request to AWS
  *
+ * @throws Exception
  * @return mixed array of the resulting request or false if unable to contact server
  */
 	protected function _request() {
@@ -173,14 +174,23 @@ class AmazonAssociatesSource extends DataSource {
 		$this->_request = array(
 			'query' => $query,
 			'affected' => 0,
-			'took' => $data['ItemSearchResponse']['OperationRequest']['RequestProcessingTime'] * 1000
+			'numRows' => 0,
+			'took' => 0
 		);
-		if ($data['ItemSearchResponse']['Items']['Request']['IsValid'] == 'True') {
-			$this->_request['numRows'] = $data['ItemSearchResponse']['Items']['TotalResults'];
-		} else {
-			$this->_request['numRows'] = 0;
+
+		if (isset($data['ItemSearchResponse'])) {
+			$this->_request['took'] = $data['ItemSearchResponse']['OperationRequest']['RequestProcessingTime'] * 1000;
+			if ($data['ItemSearchResponse']['Items']['Request']['IsValid'] == 'True') {
+				$this->_request['numRows'] = $data['ItemSearchResponse']['Items']['TotalResults'];
+			}
 		}
+
 		$this->_requestLog[] = $this->_request;
+
+		if (isset($data['ItemSearchErrorResponse'])) {
+			$e = $data['ItemSearchErrorResponse']['Error'];
+			throw new Exception("{$e['Code']} {$e['Message']}");
+		}
 		return $data;
 	}
 
